@@ -1,10 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 const VanDetails = () => {
-  const params = useParams();
-  console.log(params);
-
-  return <div>Host van details</div>;
+  const { van } = useOutletContext();
+  return <div>{van.description}</div>;
 };
 
 export default VanDetails;

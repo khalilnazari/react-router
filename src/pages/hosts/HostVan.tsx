@@ -31,19 +31,18 @@ const HostVan = () => {
       {van ? (
         <>
           <div className="mb-2 px-2">
-            <Link to="/host/vans" className="hover:underline">
-              Back to vans
+            <Link to=".." relative="path" className="hover:underline">
+              &larr; Back to vans
             </Link>
           </div>
           <div className="flex gap-5">
             <img
               src={van?.imageUrl}
               alt={van?.name}
-              className="max-w-[400px] rounded border"
+              className="w-[200px] rounded border"
             />
             <div className="p-4 ">
               <PageTitle>{van?.name}</PageTitle>
-              <p className="text-xl mb-2">{van?.description}</p>
               <p className="font-bold text-2xl mb-1">${van?.price}</p>
               <p className="font-bold text-2xl mb-1">{van?.type}</p>
             </div>
@@ -51,7 +50,7 @@ const HostVan = () => {
 
           <div className="py-5 flex gap-5">
             <NavLink
-              to=""
+              to="."
               end
               className={({ isActive }) =>
                 isActive ? "underline" : "hover:underline"
@@ -60,7 +59,7 @@ const HostVan = () => {
               Details
             </NavLink>
             <NavLink
-              to={`/host/vans/${van.id}/pricing`}
+              to={`pricing`}
               className={({ isActive }) =>
                 isActive ? "underline" : "hover:underline"
               }
@@ -68,7 +67,7 @@ const HostVan = () => {
               Pricing
             </NavLink>
             <NavLink
-              to={`/host/vans/${van.id}/photos`}
+              to={`photos`}
               className={({ isActive }) =>
                 isActive ? "underline" : "hover:underline"
               }
@@ -77,7 +76,7 @@ const HostVan = () => {
             </NavLink>
           </div>
           <div>
-            <Outlet />
+            <Outlet context={{ van }} />
           </div>
         </>
       ) : (

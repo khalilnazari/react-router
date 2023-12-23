@@ -1,5 +1,8 @@
+import { useOutletContext } from "react-router-dom";
+
 const Pricing = () => {
-  return <div>Pricing</div>;
+  const { van } = useOutletContext();
+  return <div>{van.price}</div>;
 };
 
 export default Pricing;

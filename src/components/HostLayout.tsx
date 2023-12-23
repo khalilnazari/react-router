@@ -14,7 +14,7 @@ const HostLayout = () => {
             className={({ isActive }) =>
               isActive ? activeLinkStyle : normalLinkStyle
             }
-            to=""
+            to="."
             end
           >
             Dashboard
