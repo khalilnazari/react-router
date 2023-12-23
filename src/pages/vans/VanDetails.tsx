@@ -26,10 +26,9 @@ const VanDetails = () => {
 
   const fetchVans = async () => {
     try {
-      const response = await fetch("/api/vans");
+      const response = await fetch(`/api/vans/${params.vanId}`);
       const data = await response.json();
-      const van = data.vans.find((van: VanType) => van.id === params.vanId);
-      setVan(van);
+      setVan(data.vans);
     } catch (error) {
       console.log(error);
     }

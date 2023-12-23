@@ -1,11 +1,15 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const PageLayout = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div className="min-h-[80vh]">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 };
