@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import Container from "../components/Container";
-import PageTitle from "../components/PageTitle";
+import Container from "../../components/Container";
+import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
 
 type VanType = {

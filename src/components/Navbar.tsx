@@ -36,6 +36,15 @@ const Navbar = () => {
             >
               Vans
             </NavLink>
+
+            <NavLink
+              to="/host"
+              className={({ isActive }) =>
+                isActive ? "text-slate-50" : "hover:text-slate-50"
+              }
+            >
+              Host
+            </NavLink>
           </nav>
         </div>
       </Container>

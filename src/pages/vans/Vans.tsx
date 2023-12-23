@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Container from "../components/Container";
-import PageTitle from "../components/PageTitle";
+import Container from "../../components/Container";
+import PageTitle from "../../components/PageTitle";
 import { Link } from "react-router-dom";
 
 type VansType = {
