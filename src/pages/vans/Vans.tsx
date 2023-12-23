@@ -14,8 +14,10 @@ type VansType = {
 
 const Vans = () => {
   const [vans, setVans] = useState<VansType | []>([]);
+  const [search, setSearch] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const typeFilter = searchParams.get("type");
+  const nameFilter = searchParams.get("name");
 
   const fetchVans = async () => {
     try {
@@ -24,6 +26,8 @@ const Vans = () => {
 
       const vans = typeFilter
         ? data.vans.filter((van) => van.type.toLowerCase() === typeFilter)
+        : nameFilter
+        ? data.vans.filter((van) => van.name.toLowerCase().includes(nameFilter))
         : data.vans;
 
       setVans(vans);
@@ -34,7 +38,11 @@ const Vans = () => {
 
   useEffect(() => {
     fetchVans();
-  }, [typeFilter]);
+  }, [typeFilter, nameFilter]);
+
+  const handleSearch = () => {
+    setSearchParams({ name: search });
+  };
 
   return (
     <main>
@@ -44,20 +52,31 @@ const Vans = () => {
 
           <div>
             <div className="flex gap-3">
-              <Link to="?type=luxury">Simple</Link>
+              {/* <button onClick={() => setSearchParams({ type: "simple" })}>
+                Simple
+              </button>
+              <button onClick={() => setSearchParams({ type: "rugged" })}>
+                Rugged
+              </button>
+              <button onClick={() => setSearchParams({ type: "luxury" })}>
+                Luxury
+              </button>
+              <button onClick={() => setSearchParams({})}>Clear</button> */}
+              {/* <Link to="?type=luxury">Simple</Link>
               <Link to="?type=rugged">Rugged</Link>
               <Link to="?type=simple">Simple</Link>
-              <Link to=".">Clear</Link>
+              <Link to=".">Clear</Link> */}
             </div>
-            {/* <input
-              type="text"
+            <input
+              type="search"
               className="p-2 border outline-0"
               placeholder="Search vans"
               onChange={(e) => setSearch(e.target.value)}
+              value={search}
             />
             <button onClick={handleSearch} className="p-2 border">
               Search
-            </button> */}
+            </button>
           </div>
         </div>
 
