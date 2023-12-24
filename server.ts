@@ -1,11 +1,11 @@
 // import * as mirage from "miragejs";
-// import * as mirage from "miragejs";
+import * as mirage from "miragejs";
 
-import { createServer, Model, Response } from "miragejs";
+// import { createServer, Model, Response } from "miragejs";
 
-createServer({
+mirage.createServer({
   models: {
-    vans: Model,
+    vans: mirage.Model,
   },
 
   seeds(server) {
@@ -79,8 +79,6 @@ createServer({
 
   routes() {
     this.namespace = "api";
-    this.logging = false;
-    this.timing = 1000;
 
     this.get("/vans", (schema, request) => {
       // return new Response(
