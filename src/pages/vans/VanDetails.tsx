@@ -40,9 +40,10 @@ const VanDetails = () => {
       }
       const data = await response.json();
       setVan(data.vans);
-      setLoading(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
