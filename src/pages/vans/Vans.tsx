@@ -24,10 +24,12 @@ const Vans = () => {
       const response = await fetch("/api/vans");
       const data = await response.json();
 
-      const vans = typeFilter
-        ? data.vans.filter((van) => van.type.toLowerCase() === typeFilter)
-        : nameFilter
-        ? data.vans.filter((van) => van.name.toLowerCase().includes(nameFilter))
+      const vans = nameFilter
+        ? data.vans.filter((van: any) =>
+            van.name.toLowerCase().includes(nameFilter)
+          )
+        : typeFilter
+        ? data.vans.filter((van: any) => van.type.toLowerCase() === typeFilter)
         : data.vans;
 
       setVans(vans);
@@ -40,8 +42,27 @@ const Vans = () => {
     fetchVans();
   }, [typeFilter, nameFilter]);
 
-  const handleSearch = () => {
-    setSearchParams({ name: search });
+  // Generate search params for buttons
+  const setSearchParamStr = (key: string, value: string | null) => {
+    setSearchParams((prevParams) => {
+      if (value === null) {
+        prevParams.delete(key);
+      } else {
+        prevParams.set(key, value);
+      }
+      return prevParams;
+    });
+  };
+
+  // Generate search params for links
+  const generateSearchParamStr = (key: string, value: string | null) => {
+    const sp = new URLSearchParams(searchParams);
+    if (!value) {
+      sp.delete(key);
+    } else {
+      sp.set(key, value);
+    }
+    return `?${sp.toString()}`;
   };
 
   return (
@@ -50,33 +71,61 @@ const Vans = () => {
         <div className="flex justify-between mb-2">
           <PageTitle>Vans list</PageTitle>
 
-          <div>
+          <div className="flex gap-3 items-center">
             <div className="flex gap-3">
-              {/* <button onClick={() => setSearchParams({ type: "simple" })}>
+              <button
+                className={`border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
+                  typeFilter === "simple" ? "bg-slate-500 text-slate-50" : null
+                }`}
+                onClick={() => setSearchParamStr("type", "simple")}
+              >
                 Simple
               </button>
-              <button onClick={() => setSearchParams({ type: "rugged" })}>
+              <button
+                className={`border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
+                  typeFilter === "rugged" ? "bg-slate-500 text-slate-50" : null
+                }`}
+                onClick={() => setSearchParamStr("type", "rugged")}
+              >
                 Rugged
               </button>
-              <button onClick={() => setSearchParams({ type: "luxury" })}>
+              <button
+                className={`border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
+                  typeFilter === "luxury" ? "bg-slate-500 text-slate-50" : null
+                }`}
+                onClick={() => setSearchParamStr("type", "luxury")}
+              >
                 Luxury
               </button>
-              <button onClick={() => setSearchParams({})}>Clear</button> */}
-              {/* <Link to="?type=luxury">Simple</Link>
-              <Link to="?type=rugged">Rugged</Link>
-              <Link to="?type=simple">Simple</Link>
-              <Link to=".">Clear</Link> */}
+
+              <button
+                className={`border bourded px-3 py-1 hover:bg-slate-200`}
+                onClick={() => setSearchParamStr("type", null)}
+              >
+                clear
+              </button>
+
+              {/* <Link to={generateSearchParamStr("type", "luxury")}>Luxury</Link>
+              <Link to={generateSearchParamStr("type", "rugged")}>Rugged</Link>
+              <Link to={generateSearchParamStr("type", "simple")}>Simple</Link>
+              <Link to={generateSearchParamStr("type", null)}>Clear</Link> */}
             </div>
-            <input
-              type="search"
-              className="p-2 border outline-0"
-              placeholder="Search vans"
-              onChange={(e) => setSearch(e.target.value)}
-              value={search}
-            />
-            <button onClick={handleSearch} className="p-2 border">
-              Search
-            </button>
+            <div>
+              <input
+                type="search"
+                className="p-2 border outline-0"
+                placeholder="Search vans"
+                name="name"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+              />
+              <button
+                onClick={() => setSearchParamStr("name", search)}
+                className="p-2 border"
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
 
