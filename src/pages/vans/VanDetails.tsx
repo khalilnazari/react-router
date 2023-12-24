@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Container from "../../components/Container";
 import PageTitle from "../../components/PageTitle";
 import { useEffect, useState } from "react";
@@ -23,6 +23,9 @@ const VanDetails = () => {
   });
 
   const params = useParams();
+  const location = useLocation();
+  const searchParams = location.state?.search || "";
+  const filterStr = location.state?.filterStr || "all";
 
   const fetchVans = async () => {
     try {
@@ -38,9 +41,20 @@ const VanDetails = () => {
     fetchVans();
   }, []);
 
+  console.log();
+
   return (
     <main>
       <Container>
+        <div className="mb-2 px-2">
+          <Link
+            to={`..${searchParams}`}
+            relative="path"
+            className="hover:underline"
+          >
+            &larr; Back to {filterStr} vans
+          </Link>
+        </div>
         <PageTitle>{van.name}</PageTitle>
         <div className="flex gap-5">
           <img

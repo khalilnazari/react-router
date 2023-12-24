@@ -31,7 +31,7 @@ const HostVans = () => {
           vans.map((van) => (
             <Link
               className="flex flex-row gap-6 border rounded p-5 mb-2"
-              to={`${van.id}`}
+              to={van.id}
               key={van.id}
             >
               <img src={van.imageUrl} className="h-40 rounded" alt={van.name} />

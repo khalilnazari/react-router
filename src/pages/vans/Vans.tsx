@@ -55,15 +55,15 @@ const Vans = () => {
   };
 
   // Generate search params for links
-  const generateSearchParamStr = (key: string, value: string | null) => {
-    const sp = new URLSearchParams(searchParams);
-    if (!value) {
-      sp.delete(key);
-    } else {
-      sp.set(key, value);
-    }
-    return `?${sp.toString()}`;
-  };
+  // const generateSearchParamStr = (key: string, value: string | null) => {
+  //   const sp = new URLSearchParams(searchParams);
+  //   if (!value) {
+  //     sp.delete(key);
+  //   } else {
+  //     sp.set(key, value);
+  //   }
+  //   return `?${sp.toString()}`;
+  // };
 
   return (
     <main>
@@ -73,47 +73,15 @@ const Vans = () => {
 
           <div className="flex gap-3 items-center">
             <div className="flex gap-3">
-              <button
-                className={`border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
-                  typeFilter === "simple" ? "bg-slate-500 text-slate-50" : null
-                }`}
-                onClick={() => setSearchParamStr("type", "simple")}
-              >
-                Simple
-              </button>
-              <button
-                className={`border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
-                  typeFilter === "rugged" ? "bg-slate-500 text-slate-50" : null
-                }`}
-                onClick={() => setSearchParamStr("type", "rugged")}
-              >
-                Rugged
-              </button>
-              <button
-                className={`border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
-                  typeFilter === "luxury" ? "bg-slate-500 text-slate-50" : null
-                }`}
-                onClick={() => setSearchParamStr("type", "luxury")}
-              >
-                Luxury
-              </button>
-
-              <button
-                className={`border bourded px-3 py-1 hover:bg-slate-200`}
-                onClick={() => setSearchParamStr("type", null)}
-              >
-                clear
-              </button>
-
               {/* <Link to={generateSearchParamStr("type", "luxury")}>Luxury</Link>
               <Link to={generateSearchParamStr("type", "rugged")}>Rugged</Link>
               <Link to={generateSearchParamStr("type", "simple")}>Simple</Link>
               <Link to={generateSearchParamStr("type", null)}>Clear</Link> */}
             </div>
-            <div>
+            <div className="border rounded text-slate-700">
               <input
                 type="search"
-                className="p-2 border outline-0"
+                className="px-3 py-2 outline-0 border-0 rounded "
                 placeholder="Search vans"
                 name="name"
                 onChange={(e) => setSearch(e.target.value)}
@@ -121,7 +89,7 @@ const Vans = () => {
               />
               <button
                 onClick={() => setSearchParamStr("name", search)}
-                className="p-2 border"
+                className="px-3 p-2 bg-slate-200"
               >
                 Search
               </button>
@@ -129,24 +97,69 @@ const Vans = () => {
           </div>
         </div>
 
-        <section className="grid grid-cols-3 gap-4">
-          {vans.length ? (
-            vans.map((van) => (
-              <Link to={`/vans/${van?.id}`} key={van.id} className="mb-2">
-                <img src={van.imageUrl} className="w-full rounded border" />
-                <div className="mt-2 flex justify-between p-1">
-                  <div>
-                    <p className="font-bold mb-2">{van.name}</p>
-                    <span className="border py-1 rounded px-3">{van.type}</span>
+        <div className="flex gap-7">
+          <aside className="w-1/5">
+            <button
+              className={`w-full text-left mb-2 border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
+                typeFilter === "simple" ? "bg-slate-500 text-slate-50" : null
+              }`}
+              onClick={() => setSearchParamStr("type", "simple")}
+            >
+              Simple
+            </button>
+            <button
+              className={`w-full text-left mb-2 border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
+                typeFilter === "rugged" ? "bg-slate-500 text-slate-50" : null
+              }`}
+              onClick={() => setSearchParamStr("type", "rugged")}
+            >
+              Rugged
+            </button>
+            <button
+              className={`w-full text-left mb-2 border bourded px-3 py-1 hover:bg-slate-500 rounded hover:text-slate-50 ${
+                typeFilter === "luxury" ? "bg-slate-500 text-slate-50" : null
+              }`}
+              onClick={() => setSearchParamStr("type", "luxury")}
+            >
+              Luxury
+            </button>
+
+            <button
+              className={`w-full text-left mb-2 border bourded px-3 py-1 hover:bg-slate-200`}
+              onClick={() => setSearchParamStr("type", null)}
+            >
+              clear
+            </button>
+          </aside>
+          <section className="grid grid-cols-3 gap-4 w-4/5">
+            {vans.length ? (
+              vans.map((van) => (
+                <Link
+                  to={van?.id}
+                  state={{
+                    search: `?${searchParams.toString()}`,
+                    filterStr: typeFilter,
+                  }}
+                  key={van.id}
+                  className="mb-2"
+                >
+                  <img src={van.imageUrl} className="w-full rounded border" />
+                  <div className="mt-2 flex justify-between p-1">
+                    <div>
+                      <p className="font-bold mb-2">{van.name}</p>
+                      <span className="border py-1 rounded px-3">
+                        {van.type}
+                      </span>
+                    </div>
+                    <span>{van.price}</span>
                   </div>
-                  <span>{van.price}</span>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <div>No data found</div>
-          )}
-        </section>
+                </Link>
+              ))
+            ) : (
+              <div>No data found</div>
+            )}
+          </section>
+        </div>
       </Container>
     </main>
   );
