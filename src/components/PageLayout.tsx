@@ -6,9 +6,7 @@ const PageLayout = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-[80vh]">
-        <Outlet />
-      </div>
+      <Outlet />
       <Footer />
     </>
   );

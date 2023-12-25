@@ -2,7 +2,7 @@ import Container from "./Container";
 
 const Footer = () => {
   return (
-    <footer className="mt-5 py-5 bg-slate-200">
+    <footer className="mt-auto shrink-0 py-5 bg-slate-300">
       <Container>Footer</Container>
     </footer>
   );

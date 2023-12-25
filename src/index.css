@@ -7,3 +7,10 @@
   /* font-family: 'Inter', sans-serif; */
   font-family: "Nunito", sans-serif;
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f0f3f7;
+}
