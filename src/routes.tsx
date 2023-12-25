@@ -15,7 +15,7 @@ import Photos from "./pages/hosts/Photos";
 import NotFound from "./pages/NotFound";
 import HostVanDetails from "./pages/hosts/VanDetails";
 import Error from "./components/Error";
-import Login from "./pages/Login";
+import Login, { loader as loginLoader } from "./pages/Login";
 import { requireAuth } from "./utils/auth";
 
 export const router = createBrowserRouter([
@@ -46,6 +46,7 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+        loader: loginLoader,
       },
       {
         path: "host",
@@ -78,7 +79,9 @@ export const router = createBrowserRouter([
           {
             path: "vans",
             element: <HostVans />,
-            loader: hostVansLoader,
+            loader: async () => {
+              return hostVansLoader();
+            },
             errorElement: <Error />,
           },
 

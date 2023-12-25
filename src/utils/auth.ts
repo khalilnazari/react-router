@@ -1,10 +1,10 @@
 import { redirect } from "react-router-dom";
 
 export async function requireAuth() {
-  const isAuth = false;
+  const isAuth = true;
 
   if (!isAuth) {
-    throw redirect("/login");
+    throw redirect("/login?message=You must login to view your vans");
   }
 
   return null;
