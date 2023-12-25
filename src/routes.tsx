@@ -3,13 +3,13 @@ import PageLayout from "./components/PageLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Vans, { loader as vansLoader } from "./pages/vans/Vans";
-import VanDetails from "./pages/vans/VanDetails";
+import VanDetails, { loader as vanLoader } from "./pages/vans/VanDetails";
 import HostLayout from "./components/HostLayout";
 import Dashboard from "./pages/hosts/Dashboard";
 import Reviews from "./pages/hosts/Reviews";
 import Income from "./pages/hosts/Income";
-import HostVans from "./pages/hosts/HostVans";
-import HostVan from "./pages/hosts/HostVan";
+import HostVans, { loader as hostVansLoader } from "./pages/hosts/HostVans";
+import HostVan, { loader as hostVanLoader } from "./pages/hosts/HostVan";
 import Pricing from "./pages/hosts/Pricing";
 import Photos from "./pages/hosts/Photos";
 import NotFound from "./pages/NotFound";
@@ -39,6 +39,8 @@ export const router = createBrowserRouter([
       {
         path: "vans/:vanId",
         element: <VanDetails />,
+        loader: vanLoader,
+        errorElement: <Error />,
       },
       {
         path: "login",
@@ -51,35 +53,55 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <Dashboard />,
+            loader: async () => {
+              return null;
+            },
           },
           {
             path: "reviews",
             element: <Reviews />,
+            loader: async () => {
+              return null;
+            },
           },
           {
             path: "income",
             element: <Income />,
+            loader: async () => {
+              return null;
+            },
           },
           {
             path: "vans",
             element: <HostVans />,
+            loader: hostVansLoader,
           },
 
           {
             path: "vans/:vanId",
             element: <HostVan />,
+            loader: hostVanLoader,
             children: [
               {
                 index: true,
                 element: <HostVanDetails />,
+                loader: async () => {
+                  return null;
+                },
               },
               {
                 path: "pricing",
                 element: <Pricing />,
+                loader: async () => {
+                  return null;
+                },
               },
               {
                 path: "photos",
                 element: <Photos />,
+                loader: async () => {
+                  return null;
+                },
               },
             ],
           },

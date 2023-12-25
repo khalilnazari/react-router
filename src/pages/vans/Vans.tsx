@@ -13,7 +13,7 @@ type VansType = {
   type: string;
 }[];
 
-export const loader = async () => await getVans();
+export const loader = async () => await getVans(undefined);
 
 const Vans = () => {
   const vansList = useLoaderData() as VansType;

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import PageTitle from "../../components/PageTitle";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import { getHostVans } from "../../api/api";
 
 type VansType = {
   description: string;
@@ -11,17 +11,12 @@ type VansType = {
   type: string;
 }[];
 
-const HostVans = () => {
-  const [vans, setVans] = useState<VansType>([]);
-  const fetchData = async () => {
-    const response = await fetch("/api/host/vans");
-    const data = await response.json();
-    setVans(data.vans);
-  };
+export const loader = async () => {
+  return getHostVans(undefined);
+};
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+const HostVans = () => {
+  const vans = useLoaderData() as VansType;
 
   return (
     <main className="py-5">
