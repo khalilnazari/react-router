@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import HostVanDetails from "./pages/hosts/VanDetails";
 import Error from "./components/Error";
 import Login from "./pages/Login";
+import { requireAuth } from "./utils/auth";
 
 export const router = createBrowserRouter([
   {
@@ -54,54 +55,62 @@ export const router = createBrowserRouter([
             index: true,
             element: <Dashboard />,
             loader: async () => {
-              return null;
+              return await requireAuth();
             },
+            errorElement: <Error />,
           },
           {
             path: "reviews",
             element: <Reviews />,
             loader: async () => {
-              return null;
+              return await requireAuth();
             },
+            errorElement: <Error />,
           },
           {
             path: "income",
             element: <Income />,
             loader: async () => {
-              return null;
+              return await requireAuth();
             },
+            errorElement: <Error />,
           },
           {
             path: "vans",
             element: <HostVans />,
             loader: hostVansLoader,
+            errorElement: <Error />,
           },
 
           {
             path: "vans/:vanId",
             element: <HostVan />,
             loader: hostVanLoader,
+            errorElement: <Error />,
             children: [
               {
                 index: true,
                 element: <HostVanDetails />,
                 loader: async () => {
-                  return null;
+                  return await requireAuth();
                 },
+                errorElement: <Error />,
               },
               {
                 path: "pricing",
                 element: <Pricing />,
                 loader: async () => {
-                  return null;
+                  return await requireAuth();
                 },
+                errorElement: <Error />,
               },
               {
                 path: "photos",
                 element: <Photos />,
                 loader: async () => {
-                  return null;
+                  return await requireAuth();
                 },
+                errorElement: <Error />,
               },
             ],
           },

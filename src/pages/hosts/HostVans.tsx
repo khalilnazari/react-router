@@ -1,6 +1,7 @@
 import PageTitle from "../../components/PageTitle";
 import { Link, useLoaderData } from "react-router-dom";
 import { getHostVans } from "../../api/api";
+import { requireAuth } from "../../utils/auth";
 
 type VansType = {
   description: string;
@@ -12,6 +13,7 @@ type VansType = {
 }[];
 
 export const loader = async () => {
+  await requireAuth();
   return getHostVans(undefined);
 };
 

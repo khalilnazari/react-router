@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import Container from "../components/Container";
+import { useNavigate } from "react-router-dom";
 
 const innputInit = {
   email: "",
@@ -7,6 +8,7 @@ const innputInit = {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<typeof innputInit>(innputInit);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +18,7 @@ const Login = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.email || !formData.password) return;
-    console.log(formData);
+    return navigate("/host", { replace: true });
   };
 
   return (

@@ -2,7 +2,7 @@ import { useRouteError } from "react-router-dom";
 import Container from "./Container";
 
 const Error = () => {
-  const error = useRouteError();
+  const error = useRouteError() as any;
 
   return (
     <main>
