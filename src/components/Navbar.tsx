@@ -2,6 +2,8 @@ import { NavLink, Link } from "react-router-dom";
 import Container from "./Container";
 
 const Navbar = () => {
+  const isLoggedIn = JSON.parse(localStorage.getItem("loginVan") || "");
+
   return (
     <header className="bg-slate-800  py-3 mb-5">
       <Container>
@@ -36,24 +38,34 @@ const Navbar = () => {
             >
               Vans
             </NavLink>
-
-            <NavLink
-              to="/host"
-              className={({ isActive }) =>
-                isActive ? "text-slate-50" : "hover:text-slate-50"
-              }
-            >
-              Host
-            </NavLink>
-
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? "text-slate-50" : "hover:text-slate-50"
-              }
-            >
-              Login
-            </NavLink>
+            {isLoggedIn ? (
+              <>
+                <NavLink
+                  to="/host"
+                  className={({ isActive }) =>
+                    isActive ? "text-slate-50" : "hover:text-slate-50"
+                  }
+                >
+                  Host
+                </NavLink>
+                <button
+                  onClick={() => {
+                    localStorage.setItem("loginVan", "false");
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? "text-slate-50" : "hover:text-slate-50"
+                }
+              >
+                Login
+              </NavLink>
+            )}
           </nav>
         </div>
       </Container>

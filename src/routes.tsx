@@ -15,7 +15,10 @@ import Photos from "./pages/hosts/Photos";
 import NotFound from "./pages/NotFound";
 import HostVanDetails from "./pages/hosts/VanDetails";
 import Error from "./components/Error";
-import Login, { loader as loginLoader } from "./pages/Login";
+import Login, {
+  loader as loginLoader,
+  action as loginAction,
+} from "./pages/Login";
 import { requireAuth } from "./utils/auth";
 
 export const router = createBrowserRouter([
@@ -47,6 +50,8 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login />,
         loader: loginLoader,
+        action: loginAction,
+        errorElement: <Error />,
       },
       {
         path: "host",

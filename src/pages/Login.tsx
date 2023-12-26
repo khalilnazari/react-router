@@ -1,54 +1,63 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import Container from "../components/Container";
-import { useLoaderData, useNavigate } from "react-router-dom";
 import { getAuth } from "../api/api";
-
-const innputInit = {
-  email: "",
-  password: "",
-};
+import Container from "../components/Container";
+import {
+  Form,
+  Navigate,
+  redirect,
+  useActionData,
+  useLoaderData,
+} from "react-router-dom";
 
 export const loader = async ({ request }: any) => {
   return new URL(request.url).searchParams.get("message");
 };
 
+export const action = async ({ request }: any) => {
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+  // call api request
+
+  try {
+    const user = await getAuth({ email, password });
+    if (user) {
+      console.log(user);
+      localStorage.setItem("loginVan", "true");
+      throw redirect("/host");
+    } else {
+      return { message: "Failed to login. User correct creditionasl" };
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
 const Login = () => {
   const message = useLoaderData() as string;
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState<typeof innputInit>(innputInit);
-  const [state, setState] = useState("idle");
+  const error = useActionData() as { message: string };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!formData.email || !formData.password) return;
-
-    setState("loading");
-    getAuth(formData)
-      .then((data) => {
-        console.log("login success", data);
-        navigate("/host", { replace: true });
-      })
-      .catch()
-      .finally(() => {
-        setState("idle");
-      });
-  };
+  const isAuth = JSON.parse(localStorage.getItem("loginVan") || "");
+  if (isAuth) {
+    return <Navigate to="/host" replace />;
+  }
 
   return (
     <main>
       <Container>
         <div className="min-h-[60vh] flex items-center justify-center">
-          <form
-            onSubmit={handleSubmit}
+          <Form
+            method="post"
+            replace
             className="w-[350px] bg-white p-8 rounded flex flex-col gap-5"
           >
             {message ? (
               <div className="px-3 py-2 rounded bg-red-300">{message}</div>
+            ) : null}
+
+            {error?.message ? (
+              <div className="px-3 py-2 rounded bg-red-300">
+                {error?.message}
+              </div>
             ) : null}
 
             <input
@@ -56,8 +65,6 @@ const Login = () => {
               name="email"
               placeholder="enter email"
               className="border px-3 py-2 rounded outline-1 outline-slate-300"
-              value={formData.email}
-              onChange={handleInputChange}
               autoComplete="true"
             />
 
@@ -66,18 +73,15 @@ const Login = () => {
               name="password"
               placeholder="enter password "
               className="border px-3 py-2 rounded outline-1 outline-slate-300"
-              value={formData.password}
-              onChange={handleInputChange}
               autoComplete="true"
             />
             <button
               type="submit"
               className="bg-slate-700 hover:bg-slate-800 transition duration-300 ease-in-out text-slate-100 rounded border px-3 py-2 w-full"
-              disabled={state === "loading" ? true : false}
             >
-              {state === "loading" ? "Login..." : "Login"}
+              Login
             </button>
-          </form>
+          </Form>
         </div>
       </Container>
     </main>

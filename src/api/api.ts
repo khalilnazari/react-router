@@ -1,3 +1,5 @@
+// Its just a fake api not a real world
+
 const API_URL = "http://localhost:3001";
 
 export const getVans = async (id: string | undefined) => {
@@ -28,7 +30,10 @@ export const getHostVans = async (id: string | undefined) => {
   return data;
 };
 
-export const getAuth = async (credintials = {}) => {
+export const getAuth = async (credintials: {
+  password: string;
+  email: string;
+}) => {
   const URL = `${API_URL}/auth`;
   const response = await fetch(URL);
   if (!response.ok) {
@@ -39,5 +44,12 @@ export const getAuth = async (credintials = {}) => {
     };
   }
   const data = await response.json();
-  return data[0];
+
+  if (
+    data[0].email === credintials.email &&
+    data[0].password === credintials.password
+  ) {
+    return data[0];
+  }
+  return null;
 };
