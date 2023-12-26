@@ -2,10 +2,10 @@ import { getAuth } from "../api/api";
 import Container from "../components/Container";
 import {
   Form,
-  Navigate,
   redirect,
   useActionData,
   useLoaderData,
+  useNavigation,
 } from "react-router-dom";
 
 export const loader = async ({ request }: any) => {
@@ -18,11 +18,15 @@ export const action = async ({ request }: any) => {
   const password = formData.get("password");
   // call api request
 
+  const pathname = new URL(request.url).searchParams.get("redirectTo");
+
   try {
     const user = await getAuth({ email, password });
     if (user) {
-      console.log(user);
       localStorage.setItem("loginVan", "true");
+      if (pathname) {
+        throw redirect(pathname);
+      }
       throw redirect("/host");
     } else {
       return { message: "Failed to login. User correct creditionasl" };
@@ -35,11 +39,7 @@ export const action = async ({ request }: any) => {
 const Login = () => {
   const message = useLoaderData() as string;
   const error = useActionData() as { message: string };
-
-  const isAuth = JSON.parse(localStorage.getItem("loginVan") || "");
-  if (isAuth) {
-    return <Navigate to="/host" replace />;
-  }
+  const navigation = useNavigation();
 
   return (
     <main>
@@ -78,8 +78,9 @@ const Login = () => {
             <button
               type="submit"
               className="bg-slate-700 hover:bg-slate-800 transition duration-300 ease-in-out text-slate-100 rounded border px-3 py-2 w-full"
+              disabled={navigation.state === "submitting" ? true : false}
             >
-              Login
+              {navigation.state === "submitting" ? "Login..." : "Login"}
             </button>
           </Form>
         </div>

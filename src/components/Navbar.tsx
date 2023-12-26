@@ -2,7 +2,11 @@ import { NavLink, Link } from "react-router-dom";
 import Container from "./Container";
 
 const Navbar = () => {
-  const isLoggedIn = JSON.parse(localStorage.getItem("loginVan") || "");
+  let isLoggedIn;
+  const loginVan = localStorage.getItem("loginVan");
+  if (loginVan) {
+    isLoggedIn = JSON.parse(loginVan);
+  }
 
   return (
     <header className="bg-slate-800  py-3 mb-5">

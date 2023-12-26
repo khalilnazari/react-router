@@ -12,8 +12,8 @@ type VansType = {
   type: string;
 }[];
 
-export const loader = async () => {
-  await requireAuth();
+export const loader = async (request: Request) => {
+  await requireAuth(request);
   return getHostVans(undefined);
 };
 

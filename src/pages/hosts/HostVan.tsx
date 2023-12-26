@@ -12,8 +12,14 @@ type VanType = {
   type: string | undefined;
 };
 
-export const loader = async ({ params }: any) => {
-  await requireAuth();
+export const loader = async ({
+  request,
+  params,
+}: {
+  request: Request;
+  params: any;
+}) => {
+  await requireAuth(request);
   return getHostVans(params.vanId);
 };
 
